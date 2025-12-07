@@ -1,0 +1,54 @@
+package atomicstryker.infernalmobs.common.mods;
+
+import atomicstryker.infernalmobs.common.LegacyHelper;
+import net.minecraft.EntityLivingBase;
+import net.minecraft.Potion;
+import net.minecraft.PotionEffect;
+import atomicstryker.infernalmobs.common.InfernalMobsCore;
+import atomicstryker.infernalmobs.common.MobModifier;
+
+public class MM_Quicksand extends MobModifier
+{
+    public MM_Quicksand(EntityLivingBase mob)
+    {
+        this.modName = "Quicksand";
+    }
+    
+    public MM_Quicksand(EntityLivingBase mob, MobModifier prevMod)
+    {
+        this.modName = "Quicksand";
+        this.nextMod = prevMod;
+    }
+    
+    int ticker = 0;
+    
+    @Override
+    public boolean onUpdate(EntityLivingBase mob)
+    {
+        if (getMobTarget() != null
+        && InfernalMobsCore.instance().getIsEntityAllowedTarget(getMobTarget())
+        && LegacyHelper.helperInstance.canEntityBeSeen(mob, getMobTarget())
+        && ++ticker == 50)
+        {
+            ticker = 0;
+            getMobTarget().addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 45, 0));
+        }
+        
+        return super.onUpdate(mob);
+    }
+    
+    @Override
+    protected String[] getModNameSuffix()
+    {
+        return suffix;
+    }
+    private static String[] suffix = { "ofYouCantRun", "theSlowingB" };
+    
+    @Override
+    protected String[] getModNamePrefix()
+    {
+        return prefix;
+    }
+    private static String[] prefix = { "slowing", "Quicksand" };
+    
+}

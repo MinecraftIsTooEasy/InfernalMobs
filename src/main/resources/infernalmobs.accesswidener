@@ -1,0 +1,5 @@
+accessWidener v2 named
+accessible field net/minecraft/Chunk entityLists [Ljava/util/List;
+accessible field net/minecraft/EntityList stringToClassMapping Ljava/util/Map;
+accessible field net/minecraft/EntityList classToStringMapping Ljava/util/Map;
+accessible field net/minecraft/WeightedRandomChestContent theItemId Lnet/minecraft/ItemStack;

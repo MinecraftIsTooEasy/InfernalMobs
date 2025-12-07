@@ -1,26 +1,29 @@
 {
 	"schemaVersion": 1,
-	"id": "modid",
+	"id": "infernalmobs",
 	"version": "${version}",
-	"name": "Example mod",
+	"name": "Infernal Mobs",
 	"description": "This is an example description! Tell everyone what your mod is about!",
 	"authors": [
-		"Me!"
+		"Atomic Stryker"
 	],
 	"contact": {
 		"homepage": "https://minecraftistooeasy.github.io/",
 		"sources": "https://github.com/MinecraftIsTooEasy/fish-example-mod"
 	},
 	"license": "CC0-1.0",
-	"icon": "assets/modid/icon.png",
+	"icon": "assets/infernalmobs/icon.png",
 	"environment": "*",
 	"entrypoints": {
 		"main": [
-			"com.example.ExampleMod"
+			"atomicstryker.infernalmobs.common.InfernalMobsCore"
+		],
+		"client": [
+			"atomicstryker.infernalmobs.client.InfernalMobsClient"
 		]
 	},
 	"mixins": [
-		"modid.mixins.json"
+		"infernalmobs.mixins.json"
 	],
 	"depends": {
 		"fishmodloader": ">=3.4.0",
@@ -30,5 +33,6 @@
 	},
 	"suggests": {
 		"another-mod": "*"
-	}
+	},
+	"accessWidener": "infernalmobs.accesswidener"
 }

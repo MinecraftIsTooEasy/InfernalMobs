@@ -238,18 +238,17 @@ public class EntityEventHandler
 //            triggeringDamage = td;
 //        }
 //    }
-//
-//
-//    public void onEntityLivingDrops(EntityLivingBase entityLiving)
-//    {
-//        if (!entity.worldObj.isRemote)
-//        {
-//            MobModifier mod = InfernalMobsCore.getMobModifiers(entityLiving);
-//            if (mod != null)
-//            {
-//                mod.onDropItems(entityLiving, source, drops, lootingLevel, recentlyHit, specialDropValue);
-//                InfernalMobsCore.removeEntFromElites(entityLiving);
-//            }
-//        }
-//    }
+
+    public void onEntityLivingDrops(EntityLivingBase entityLiving, boolean recentlyHit)
+    {
+        if (!entityLiving.worldObj.isRemote)
+        {
+            MobModifier mod = InfernalMobsCore.getMobModifiers(entityLiving);
+            if (mod != null)
+            {
+                mod.onDropItems(entityLiving, recentlyHit);
+                InfernalMobsCore.removeEntFromElites(entityLiving);
+            }
+        }
+    }
 }

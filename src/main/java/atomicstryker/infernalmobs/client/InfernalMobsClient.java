@@ -93,9 +93,9 @@ public class InfernalMobsClient implements ISidedProxy, ClientModInitializer
             retained = true;
         }
 
-        if (ent != null && ent instanceof EntityLivingBase)
+        if (ent != null && ent instanceof EntityLivingBase target)
         {
-            MobModifier mod = InfernalMobsCore.getMobModifiers((EntityLivingBase) ent);
+            MobModifier mod = InfernalMobsCore.getMobModifiers(target);
             if (mod != null)
             {
                 askServerHealth(ent);
@@ -104,7 +104,6 @@ public class InfernalMobsClient implements ISidedProxy, ClientModInitializer
                 Minecraft.getMinecraft().getTextureManager().bindTexture(Gui.icons);
                 GL11.glDisable(GL11.GL_BLEND);
 
-                EntityLivingBase target = (EntityLivingBase) ent;
                 String buffer = mod.getEntityDisplayName(target);
 
                 ScaledResolution resolution = new ScaledResolution(Minecraft.getMinecraft().gameSettings, Minecraft.getMinecraft().displayWidth, Minecraft.getMinecraft().displayHeight);
@@ -115,7 +114,8 @@ public class InfernalMobsClient implements ISidedProxy, ClientModInitializer
                 short lifeBarLength = 182;
                 int x = screenwidth / 2 - lifeBarLength / 2;
 
-                int lifeBarLeft = (int) ((float) mod.getActualHealth(target) / (float) mod.getActualMaxHealth(target) * (float) (lifeBarLength + 1));
+//                int lifeBarLeft = (int) (mod.getActualHealth(target) / mod.getActualMaxHealth(target) * (float) (lifeBarLength + 1));
+                int lifeBarLeft = (int) (target.getHealth() / target.getEntityAttribute(SharedMonsterAttributes.maxHealth).getAttributeValue() * (float) (lifeBarLength + 1));
                 byte y = 12;
                 gui.drawTexturedModalRect(x, y, 0, 74, lifeBarLength, 5);
                 gui.drawTexturedModalRect(x, y, 0, 74, lifeBarLength, 5);

@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class EntityRendererMixin {
 
     @Inject(method = "renderWorld", at = @At(value = "INVOKE", target = "Lnet/minecraft/Profiler;endStartSection(Ljava/lang/String;)V", ordinal = 19))
-    private void inject(float par1, long par2, CallbackInfo ci) {
-        RendererBossGlow.onRenderWorldLast(par1);
+    private void renderInfernalMobsEffects(float partialTicks, long par2, CallbackInfo ci) {
+        RendererBossGlow.onRenderWorldLast(partialTicks);
     }
 }

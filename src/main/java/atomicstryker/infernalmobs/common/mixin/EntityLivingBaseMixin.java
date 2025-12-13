@@ -1,8 +1,6 @@
 package atomicstryker.infernalmobs.common.mixin;
 
 import atomicstryker.infernalmobs.common.EntityEventHandler;
-import atomicstryker.infernalmobs.common.InfernalMobsCore;
-import atomicstryker.infernalmobs.common.MobModifier;
 import net.minecraft.*;
 import net.xiaoyu233.fml.util.ReflectHelper;
 import org.spongepowered.asm.mixin.Mixin;
@@ -23,12 +21,7 @@ public abstract class EntityLivingBaseMixin extends Entity {
         EntityEventHandler.instance.onEntityLivingHurt(ReflectHelper.dyCast(this), damage.getSource(), damage.getAmount());
     }
 
-    @Inject(method = "onDeath", at = @At("HEAD"))
-    private void onOnDeath(DamageSource source, CallbackInfo ci) {
-        EntityEventHandler.instance.onEntityLivingDeath(ReflectHelper.dyCast(this));
-    }
-
-    @Inject(method = "setAITarget", at = @At("HEAD"))
+    @Inject(method = "setRevengeTarget", at = @At("HEAD"))
     private void onSetAttackTarget(EntityLivingBase target, CallbackInfo ci) {
         EntityEventHandler.instance.onEntityLivingSetAttackTarget(ReflectHelper.dyCast(this));
     }
@@ -39,7 +32,12 @@ public abstract class EntityLivingBaseMixin extends Entity {
     }
 
     @Inject(method = "onUpdate", at = @At("HEAD"))
-    private void onOnUpdate(CallbackInfo ci) {
+    private void onUpdate(CallbackInfo ci) {
         EntityEventHandler.instance.onEntityLivingUpdate(ReflectHelper.dyCast(this));
+    }
+
+    @Inject(method = "jump", at = @At("TAIL"))
+    private void onJump(CallbackInfo ci) {
+        EntityEventHandler.instance.onEntityLivingJump(ReflectHelper.dyCast(this));
     }
 }

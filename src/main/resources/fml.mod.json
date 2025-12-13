@@ -5,13 +5,14 @@
 	"name": "Infernal Mobs",
 	"description": "This is an example description! Tell everyone what your mod is about!",
 	"authors": [
-		"Atomic Stryker"
+		"Atomic Stryker",
+		"Xy_Luce"
 	],
 	"contact": {
 		"homepage": "https://minecraftistooeasy.github.io/",
 		"sources": "https://github.com/MinecraftIsTooEasy/fish-example-mod"
 	},
-	"license": "CC0-1.0",
+	"license": "GPL-v3",
 	"icon": "assets/infernalmobs/icon.png",
 	"environment": "*",
 	"entrypoints": {
@@ -29,7 +30,7 @@
 		"fishmodloader": ">=3.4.0",
 		"minecraft": "1.6.4-mite",
 		"java": ">=17",
-		"rusted_iron_core": ">=1.3.5"
+		"rusted_iron_core": ">=1.4.1"
 	},
 	"suggests": {
 		"another-mod": "*"

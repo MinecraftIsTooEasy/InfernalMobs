@@ -158,7 +158,7 @@ public abstract class MobModifier
     /**
      * Passes the loot drop event to the modifier list
      */
-    public void onDropItems(EntityLivingBase moddedMob, DamageSource killSource, ArrayList<EntityItem> drops, int lootingLevel, boolean recentlyHit, int specialDropValue)
+    public void onDropItems(EntityLivingBase moddedMob, boolean recentlyHit)
     {
         if (recentlyHit)
         {
@@ -416,7 +416,9 @@ public abstract class MobModifier
             buffer = buffer.replaceFirst("Entity", "");
             
             String entLoc = "translation.infernalmobs:entity."+buffer;
-            String entTrans = StatCollector.translateToLocal(entLoc);
+            String entTrans;
+//                    = StatCollector.translateToLocal(entLoc);
+            entTrans = target.getTranslatedEntityName();
             if (!entLoc.equals(entTrans))
             {
                 buffer = entTrans;

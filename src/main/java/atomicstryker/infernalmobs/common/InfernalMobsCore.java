@@ -7,6 +7,7 @@ import java.util.logging.Level;
 import atomicstryker.infernalmobs.client.InfernalMobsClient;
 import cpw.mods.fml.common.FMLLog;
 import moddedmite.rustedironcore.api.event.Handlers;
+import moddedmite.rustedironcore.api.event.listener.IEntityEventListener;
 import moddedmite.rustedironcore.api.event.listener.IInitializationListener;
 import moddedmite.rustedironcore.api.event.listener.IWorldLoadListener;
 import net.fabricmc.api.ModInitializer;
@@ -43,7 +44,6 @@ import atomicstryker.infernalmobs.common.mods.MM_Wither;
 import atomicstryker.infernalmobs.common.network.AirPacket;
 import atomicstryker.infernalmobs.common.network.HealthPacket;
 import atomicstryker.infernalmobs.common.network.KnockBackPacket;
-import atomicstryker.infernalmobs.common.network.MobModsPacket;
 import atomicstryker.infernalmobs.common.network.NetworkHelper;
 import atomicstryker.infernalmobs.common.network.VelocityPacket;
 import net.xiaoyu233.fml.FishModLoader;
@@ -116,10 +116,6 @@ public class InfernalMobsCore implements ModInitializer
         SaveEventHandler.instance = new SaveEventHandler();
         LegacyHelper.helperInstance = new LegacyHelper();
 
-
-
-        System.out.println("InfernalMobsCore load() completed! Modifiers ready: " + mobMods.size());
-
         NetworkHelper.init();
 
         instance = this;
@@ -148,6 +144,17 @@ public class InfernalMobsCore implements ModInitializer
             evt.register(new InfernalCommandFindEntityClass());
             evt.register(new InfernalCommandSpawnInfernal());
         });
+        Handlers.EntityEvent.register(new IEntityEventListener() {
+            @Override
+            public void onLoot(EntityLivingBase entity, DamageSource damageSource) {
+                EntityEventHandler.instance.onEntityLivingDrops(entity, true);
+            }
+            @Override
+            public void onDeath(EntityLivingBase entity, DamageSource damageSource) {
+                EntityEventHandler.instance.onEntityLivingDeath(entity);
+            }
+        });
+        System.out.println("InfernalMobsCore onInitialize() completed! Modifiers ready: " + mobMods.size());
     }
 
     /**
@@ -171,7 +178,7 @@ public class InfernalMobsCore implements ModInitializer
         mobMods.add(MM_Ghastly.class);
         mobMods.add(MM_Gravity.class);
         mobMods.add(MM_Lifesteal.class);
-        mobMods.add(MM_Ninja.class);
+//        mobMods.add(MM_Ninja.class);
         mobMods.add(MM_Poisonous.class);
         mobMods.add(MM_Quicksand.class);
         mobMods.add(MM_Regen.class);
@@ -220,7 +227,7 @@ public class InfernalMobsCore implements ModInitializer
                 config.get(
                         Configuration.CATEGORY_GENERAL,
                         "droppedItemIDsElite",
-                        "iron_shovel,iron_pickaxe,iron_axe,iron_sword,iron_hoe,chainmail_helmet,chainmail_chestplate,chainmail_leggings,chainmail_boots,iron_helmet,iron_chestplate,iron_leggings,iron_boots,cookie-0-6",
+                        "shovelCopper,pickaxeCopper,axeCopper,swordCopper,hoeCopper,warHammerCopper,mattockCopper,battleAxeCopper,scytheCopper,daggerCopper,helmetChainCopper,chestplateChainCopper,leggingsChainCopper,bootsChainCopper,helmetCopper,chestplateCopper,leggingsCopper,bootsCopper,cookie-0-6",
                         "List of equally likely to drop Items for Elites, seperated by commas, syntax: ID-meta-stackSize-stackSizeRandomizer, everything but ID is optional, see changelog")
                         .getString(), instance.dropIdListElite);
 
@@ -228,7 +235,7 @@ public class InfernalMobsCore implements ModInitializer
                 config.get(
                         Configuration.CATEGORY_GENERAL,
                         "droppedItemIDsUltra",
-                        "bow,iron_hoe,chainmail_helmet,chainmail_chestplate,chainmail_leggings,chainmail_boots,iron_helmet,iron_chestplate,iron_leggings,iron_boots,golden_helmet,golden_chestplate,golden_leggings,golden_boots,golden_apple,blaze_powder-0-3,enchanted_book",
+                        "emerald-0-3,bow,bowAncientMetal,shovelIron,pickaxeIron,axeIron,swordIron,hoeIron,warHammerIron,mattockIron,battleAxeIron,scytheIron,daggerIron,helmetChainAncientMetal,chestplateChainAncientMetal,leggingsChainAncientMetal,bootsChainAncientMetal,,helmetIron,chestplateIron,leggingsIron,bootsIron,helmetAncientMetal,chestplateAncientMetal,leggingsAncientMetal,bootsAncientMetal,appleGold,blazeRod-0-3,enchantedBook",
                         "List of equally likely to drop Items for Ultras, seperated by commas, syntax: ID-meta-stackSize-stackSizeRandomizer, everything but ID is optional, see changelog")
                         .getString(), instance.dropIdListUltra);
 
@@ -236,7 +243,7 @@ public class InfernalMobsCore implements ModInitializer
                 config.get(
                         Configuration.CATEGORY_GENERAL,
                         "droppedItemIDsInfernal",
-                        "diamond-0-3,diamond_sword,diamond_shovel,diamond_pickaxe,diamond_axe,diamond_hoe,chainmail_helmet,chainmail_chestplate,chainmail_leggings,chainmail_boots,diamond_helmet,diamond_chestplate,diamond_leggings,diamond_boots,ender_pearl,enchanted_book",
+                        "diamond-0-3,bowMithril,swordMithril,shovelMithril,pickaxeMithril,axeMithril,hoeMithril,warHammerMithril,mattockMithril,battleAxeMithril,scytheMithril,daggerMithril,helmetChainMithril,chestplateChainMithril,leggingsChainMithril,bootsChainMithril,helmetMithril,chestplateMithril,leggingsMithril,bootsMithril,eyeOfEnder,enchantedBook",
                         "List of equally likely to drop Items for Infernals, seperated by commas, syntax: ID-meta-stackSize-stackSizeRandomizer, everything but ID is optional, see changelog")
                         .getString(), instance.dropIdListInfernal);
 
@@ -335,11 +342,12 @@ public class InfernalMobsCore implements ModInitializer
             return item;
         }
 
-//        Block block = Objects.requireNonNull(getItemByUnlocalizedName(s)).getItemAsBlock().getBlock();
-//        if (block != null)
-//        {
-//            return block;
-//        }
+        if (getItemByUnlocalizedName(s).getItem() == null) return null;
+        Block block = Objects.requireNonNull(getItemByUnlocalizedName(s)).getItemAsBlock().getBlock();
+        if (block != null)
+        {
+            return block;
+        }
         return null;
     }
 

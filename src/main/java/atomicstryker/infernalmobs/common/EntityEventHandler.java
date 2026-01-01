@@ -69,14 +69,13 @@ public class EntityEventHandler
             MobModifier mod = InfernalMobsCore.getMobModifiers(entityLiving);
             if (mod != null)
             {
-                if (mod.onDeath())
+                if (mod.onDeath(entityLiving))
                 {
                     return;
                 }
             }
         }
     }
-
 
     public void onEntityLivingSetAttackTarget(EntityLivingBase entityLiving)
     {

@@ -7,7 +7,7 @@ import atomicstryker.infernalmobs.common.MobModifier;
 
 public class MM_1UP extends MobModifier
 {
-    private boolean healed;
+    public boolean healed;
     
     public MM_1UP(EntityLivingBase mob)
     {
@@ -21,17 +21,19 @@ public class MM_1UP extends MobModifier
         this.nextMod = prevMod;
         healed = false;
     }
-    
+
     @Override
-    public boolean onUpdate(EntityLivingBase mob)
+    public boolean onDeath(EntityLivingBase mob)
     {
-        if (!healed && mob.getHealth() < (getActualMaxHealth(mob)*0.25))
+        if (!healed)
         {
-            InfernalMobsCore.instance().setEntityHealthPastMax(mob, getActualMaxHealth(mob));
+
+            InfernalMobsCore.instance().setEntityHealthPastMax(mob, mob.getMaxHealth());
             mob.worldObj.playSoundAtEntity(mob, "random.levelup", 1.0F, 1.0F);
             healed = true;
+            return true;
         }
-        return super.onUpdate(mob);
+        return super.onDeath(mob);
     }
     
     @Override

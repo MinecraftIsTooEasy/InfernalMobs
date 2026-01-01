@@ -21,11 +21,11 @@ public class MM_Exhaust extends MobModifier
     @Override
     public float onHurt(EntityLivingBase mob, DamageSource source, float damage)
     {
-        if (source.getResponsibleEntity() != null
-        && (source.getResponsibleEntity() instanceof EntityPlayer))
+        if (source.getImmediateEntity() != null
+        && (source.getImmediateEntity() instanceof EntityPlayer player))
         {
-            ((EntityPlayer)source.getResponsibleEntity()).getFoodStats().setNutrition(-1, true);
-            ((EntityPlayer)source.getResponsibleEntity()).getFoodStats().setSatiation(-1, true);
+            player.getFoodStats().setNutrition(-1, true);
+            player.getFoodStats().setSatiation(-1, true);
         }
         
         return super.onHurt(mob, source, damage);
@@ -34,11 +34,11 @@ public class MM_Exhaust extends MobModifier
     @Override
     public float onAttack(EntityLivingBase entity, DamageSource source, float damage)
     {
-        if (entity != null
-        && entity instanceof EntityPlayer)
+        if (source.getImmediateEntity() != null
+        && (source.getImmediateEntity() instanceof EntityPlayer player))
         {
-            ((EntityPlayer)source.getResponsibleEntity()).getFoodStats().setNutrition(-1, true);
-            ((EntityPlayer)source.getResponsibleEntity()).getFoodStats().setSatiation(-1, true);
+            player.getFoodStats().setNutrition(-1, true);
+            player.getFoodStats().setSatiation(-1, true);
         }
         
         return super.onAttack(entity, source, damage);

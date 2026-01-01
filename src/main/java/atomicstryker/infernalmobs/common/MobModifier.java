@@ -2,13 +2,7 @@ package atomicstryker.infernalmobs.common;
 
 import java.util.ArrayList;
 
-import net.minecraft.EntityList;
-import net.minecraft.EntityLivingBase;
-import net.minecraft.EntityItem;
-import net.minecraft.EntityPlayer;
-import net.minecraft.DamageSource;
-import net.minecraft.EnumChatFormatting;
-import net.minecraft.StatCollector;
+import net.minecraft.*;
 
 public abstract class MobModifier
 {    
@@ -138,18 +132,20 @@ public abstract class MobModifier
             System.out.printf("Infernal Mobs tag mismatch!! Was [%s], now trying to set [%s] \n", oldTag, getLinkedModNameUntranslated());
         }
         ((IEntity) entity).getEntityData().setString(InfernalMobsCore.instance().getNBTTag(), getLinkedModNameUntranslated());
+        entity.setEntityAttribute(SharedMonsterAttributes.maxHealth).setAttribute(getActualMaxHealth(entity));
+        entity.setHealth(getActualHealth(entity));
     }
 
     /**
      * Passes the death event to the modifier list
      * @return true if death should be aborted
      */
-    public boolean onDeath()
+    public boolean onDeath(EntityLivingBase moddedMob)
     {
         attackTarget = null;
         if (nextMod != null)
         {
-            return nextMod.onDeath();
+            return nextMod.onDeath(moddedMob);
         }
 
         return false;

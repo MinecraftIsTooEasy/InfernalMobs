@@ -149,10 +149,10 @@ public class InfernalMobsCore implements ModInitializer
             public void onLoot(EntityLivingBase entity, DamageSource damageSource) {
                 EntityEventHandler.instance.onEntityLivingDrops(entity, true);
             }
-            @Override
-            public void onDeath(EntityLivingBase entity, DamageSource damageSource) {
-                EntityEventHandler.instance.onEntityLivingDeath(entity);
-            }
+//            @Override
+//            public void onDeath(EntityLivingBase entity, DamageSource damageSource) {
+//                EntityEventHandler.instance.onEntityLivingDeath(entity);
+//            }
         });
         System.out.println("InfernalMobsCore onInitialize() completed! Modifiers ready: " + mobMods.size());
     }
@@ -173,7 +173,7 @@ public class InfernalMobsCore implements ModInitializer
         mobMods.add(MM_Cloaking.class);
         mobMods.add(MM_Darkness.class);
         mobMods.add(MM_Ender.class);
-        mobMods.add(MM_Exhaust.class);
+//        mobMods.add(MM_Exhaust.class);
         mobMods.add(MM_Fiery.class);
         mobMods.add(MM_Ghastly.class);
         mobMods.add(MM_Gravity.class);
@@ -227,7 +227,9 @@ public class InfernalMobsCore implements ModInitializer
                 config.get(
                         Configuration.CATEGORY_GENERAL,
                         "droppedItemIDsElite",
-                        "shovelCopper,pickaxeCopper,axeCopper,swordCopper,hoeCopper,warHammerCopper,mattockCopper,battleAxeCopper,scytheCopper,daggerCopper,helmetChainCopper,chestplateChainCopper,leggingsChainCopper,bootsChainCopper,helmetCopper,chestplateCopper,leggingsCopper,bootsCopper,cookie-0-6",
+                        "shovelCopper,pickaxeCopper,axeCopper,swordCopper,hoeCopper,warHammerCopper,mattockCopper,battleAxeCopper,scytheCopper,daggerCopper,helmetChainCopper,chestplateChainCopper,leggingsChainCopper,bootsChainCopper,helmetCopper,chestplateCopper,leggingsCopper,bootsCopper,cookie-0-6"
+                                + ",shovelSilver,pickaxeSilver,axeSilver,swordSilver,hoeSilver,warHammerSilver,mattockSilver,battleAxeSilver,scytheSilver,daggerSilver,helmetChainSilver,chestplateChainSilver,leggingsChainSilver,bootsChainSilver,helmetSilver,chestplateSilver,leggingsSilver,bootsSilver"
+                                + ",shovelGold,pickaxeGold,axeGold,swordGold,hoeGold,warHammerGold,mattockGold,battleAxeGold,scytheGold,daggerGold,helmetChainGold,chestplateChainGold,leggingsChainGold,bootsChainGold,helmetGold,chestplateGold,leggingsGold,bootsGold",
                         "List of equally likely to drop Items for Elites, seperated by commas, syntax: ID-meta-stackSize-stackSizeRandomizer, everything but ID is optional, see changelog")
                         .getString(), instance.dropIdListElite);
 
@@ -235,7 +237,8 @@ public class InfernalMobsCore implements ModInitializer
                 config.get(
                         Configuration.CATEGORY_GENERAL,
                         "droppedItemIDsUltra",
-                        "emerald-0-3,bow,bowAncientMetal,shovelIron,pickaxeIron,axeIron,swordIron,hoeIron,warHammerIron,mattockIron,battleAxeIron,scytheIron,daggerIron,helmetChainAncientMetal,chestplateChainAncientMetal,leggingsChainAncientMetal,bootsChainAncientMetal,,helmetIron,chestplateIron,leggingsIron,bootsIron,helmetAncientMetal,chestplateAncientMetal,leggingsAncientMetal,bootsAncientMetal,appleGold,blazeRod-0-3,enchantedBook",
+                        "emerald-0-3,bow,bowAncientMetal,shovelIron,pickaxeIron,axeIron,swordIron,hoeIron,warHammerIron,mattockIron,battleAxeIron,scytheIron,daggerIron,helmetChainAncientMetal,chestplateChainAncientMetal,leggingsChainAncientMetal,bootsChainAncientMetal,,helmetIron,chestplateIron,leggingsIron,bootsIron,helmetAncientMetal,chestplateAncientMetal,leggingsAncientMetal,bootsAncientMetal,appleGold,blazeRod-0-3,enchantedBook"
+                                + ",shovelAncientMetal,pickaxeAncientMetal,axeAncientMetal,swordAncientMetal,hoeAncientMetal,warHammerAncientMetal,mattockAncientMetal,battleAxeAncientMetal,scytheAncientMetal,daggerAncientMetal",
                         "List of equally likely to drop Items for Ultras, seperated by commas, syntax: ID-meta-stackSize-stackSizeRandomizer, everything but ID is optional, see changelog")
                         .getString(), instance.dropIdListUltra);
 

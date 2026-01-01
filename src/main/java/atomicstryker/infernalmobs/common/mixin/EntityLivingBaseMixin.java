@@ -1,6 +1,8 @@
 package atomicstryker.infernalmobs.common.mixin;
 
 import atomicstryker.infernalmobs.common.EntityEventHandler;
+import atomicstryker.infernalmobs.common.InfernalMobsCore;
+import atomicstryker.infernalmobs.common.MobModifier;
 import net.minecraft.*;
 import net.xiaoyu233.fml.util.ReflectHelper;
 import org.spongepowered.asm.mixin.Mixin;
@@ -39,5 +41,20 @@ public abstract class EntityLivingBaseMixin extends Entity {
     @Inject(method = "jump", at = @At("TAIL"))
     private void onJump(CallbackInfo ci) {
         EntityEventHandler.instance.onEntityLivingJump(ReflectHelper.dyCast(this));
+    }
+
+    @Inject(method = "onDeath", at = @At("HEAD"), cancellable = true)
+    private void onDeath(CallbackInfo ci) {
+        if (!this.worldObj.isRemote)
+        {
+            MobModifier mod = InfernalMobsCore.getMobModifiers(ReflectHelper.dyCast(this));
+            if (mod != null)
+            {
+                if (mod.onDeath(ReflectHelper.dyCast(this)))
+                {
+                    ci.cancel();
+                }
+            }
+        }
     }
 }

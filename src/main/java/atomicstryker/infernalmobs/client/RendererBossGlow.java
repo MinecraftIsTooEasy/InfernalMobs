@@ -25,6 +25,8 @@ public class RendererBossGlow
         Minecraft mc = Minecraft.getMinecraft();
         EntityLivingBase viewEnt = mc.renderViewEntity;
         Vec3 curPos = viewEnt.getPosition(renderTick);
+
+        if (mc.isGamePaused) return;
         
         Frustrum f = new Frustrum();
         double var7 = viewEnt.lastTickPosX + (viewEnt.posX - viewEnt.lastTickPosX) * (double)renderTick;

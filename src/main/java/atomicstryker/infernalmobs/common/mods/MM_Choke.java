@@ -80,7 +80,7 @@ public class MM_Choke extends MobModifier
     }
     
     @Override
-    public boolean onDeath()
+    public boolean onDeath(EntityLivingBase mob)
     {
         lastAir = -999;
         if (lastTarget != null)
